@@ -1,0 +1,162 @@
+---
+title: "김윤희"
+format:  #파일 확장자 넣으면 됨
+    html:
+        toc: True
+        toc-depth: 4
+        code-fold: show
+        number-sections: True
+        highlight-style: breezedark
+        search: true
+theme: journal
+
+
+jupyter: python3
+---
+
+# 펭귄 종별 특징 알아내기
+
+##  펭귄 파일을 불러와서 데이터 현황을 파악하기
+
+#### 서브섹션
+
+```{python}
+### 파일 불러오기
+from palmerpenguins import load_penguins
+import pandas as pd  
+import numpy as np
+
+penguins = load_penguins()
+penguins.head()
+
+
+
+### 데이터 파악하기
+# sex 컬럼 외에는 결측치가 적게 관측됨
+# 결측치가 가장 많은 행은 3행, 271번행 확인 -> 결측치들을 제외하고 진행
+penguins.info()
+penguins.describe()
+
+
+new_penguins = penguins.loc[~penguins["bill_length_mm"].isna()] 
+new_penguins.head()
+
+
+### 펭귄 종 필터링 진행
+Adelie_peng = new_penguins.loc[new_penguins['species'] == 'Adelie']
+Gentoo_peng = new_penguins.loc[new_penguins['species'] == 'Gentoo']
+Chinstrap_peng = new_penguins.loc[new_penguins['species'] == 'Chinstrap']
+
+```
+
+##  주제 도출
+
+### 각 종별 서식지 파악하기
+
+```{python}
+new_penguins.loc[new_penguins['species'] == 'Adelie','island'].value_counts() # Adelie의 사는 지역
+new_penguins.loc[new_penguins['species'] == 'Gentoo','island'].value_counts() # Gentoo의 사는 지역
+new_penguins.loc[new_penguins['species'] == 'Chinstrap','island'].value_counts() # Chinstrap의 사는 지역
+```
+
+-   **`Adelie`**는 Dream, Torgersen, Biscoe 지역에 서식하며, **`gentoo`**는 Biscoe에 살고 **`Chinstrap`**는 Dream에 서식하고 있음
+
+### 각 종별 관찰년도 파악
+
+```{python}
+new_penguins.loc[new_penguins["species"] == "Adelie",["island","year"]].value_counts()
+new_penguins.loc[new_penguins["species"] == "Gentoo",["island","year"]].value_counts()
+new_penguins.loc[new_penguins["species"] == "Chinstrap",["island","year"]].value_counts()
+```
+
+-   가장 많이 관찰된 년도는 **`Adelie`**는 2009년, **`gentoo`** 2008년,**`Chinstrap`**는 2007년에 가장 많았음
+
+### 각 종별 특징 파악
+
+```{python}
+Adelie_peng.describe()   # Adelie의 기술통계량
+Gentoo_peng.describe()   # Gentoo 기술통계량량
+Chinstrap_peng.describe() # Chinstrap 기술통계량
+```
+
+| 펭귄 평균       | bill_length_mm | bill_depth_mm  | flipper_length_mm | body_mass_g |
+|-----------------|----------------|----------------|-------------------|-------------|
+| **`Adelie`**    | 38.791391      | 18.346358      | 189.953642        | 3700.662252 |
+| **`gentoo`**    | 47.504878      | 14.982114      | 217.186992        | 5076.016260 |
+| **`Chinstrap`** | 48.833824      | 18.420588      | 195.823529        | 3733.088235 |
+
+| 펭귄 최소       | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+|-----------------|----------------|---------------|-------------------|-------------|
+| **`Adelie`**    | 32.100000      | 15.500000     | 172.000000        | 2850.000000 |
+| **`gentoo`**    | 40.900000      | 13.100000     | 203.000000        | 3950.000000 |
+| **`Chinstrap`** | 40.900000      | 16.40000      | 178.000000        | 2700.00000  |
+
+| 펭귄 최대       | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+|-----------------|----------------|---------------|-------------------|-------------|
+| **`Adelie`**    | 46.000000      | 21.500000     | 210.000000        | 4775.000000 |
+| **`gentoo`**    | 59.600000      | 17.300000     | 231.000000        | 6300.000000 |
+| **`Chinstrap`** | 58.000000      | 20.800000     | 212.000000        | 4800.000000 |
+
+-   **`gentoo`**가 평균적으로 부리의 길이에 비해 폭이 길고 `무게가 상대적으로 조금 더 나가는 편`이고 `지느러미 길이가 큰 편`이고 평균적으로 몸무게도 제일 많이 나감
+
+-   **`Chinstrap`**는 지느러미 길이에서 `표준편차가 큰 편`이었음
+
+```{python}
+#| echo : false
+#| eval : false
+#| warning : false
+new_penguins["species"][0]
+```
+
+```{python}
+#| eval: true
+#| echo: false
+print("이 코드는 실행되지만 보이지 않습니다.")
+```
+
+
+```{python}
+#| error: true
+# 의도적인 에러 발생 (존재하지 않는 변수)
+# print(undefined_variable)
+```
+
+
+```{python}
+#| fig-width: 3
+#| fig-height: 5
+#| fig-align: center
+#| fig-cap: "사인 함수 플롯"
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(0, 10, 100)
+y = np.cos(x) #코사인 함수
+plt.figure(figsize=(6, 4))
+plt.plot(x, y, label="cos(x)", color="red")
+plt.legend() # 범례
+plt.grid() # 격자
+plt.show()
+```
+
+y=x^2의 그래프를 -10에서 10까지 그려보세요!
+```{python}
+#| fig-width: 3
+#| fig-height: 5
+#| fig-align: center
+#| fig-cap: "사인 함수 플롯"
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(-10, 10, 100)
+y = x**2 #코사인 함수
+plt.figure(figsize=(6, 4))
+plt.plot(x, y, label="x^2", color="red")
+plt.legend() # 범례
+plt.grid() # 격자
+plt.show()
+```
+
+
+
+
+
+

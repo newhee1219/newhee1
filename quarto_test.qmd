@@ -1,87 +1,132 @@
 ---
 title: "quarto_test"
-format: html
+format: html  #파일 확장자 넣으면 됨
 jupyter: python3
 ---
 
 # 제목 1 (h1)
+
 문서를 작성한 후 아래 단축키를 누르면 *반영된 결과*를 볼 수 ~~있습니다.~~ 있어요!
 
 **Preview 단축키 : Ctrl + Shift + k**
 
 글 중간에 목록을 삽입하고 싶은 경우
 
-- 아이템 1
-- 아이템 2
-    - 서브 아이템 1
-    - 서브 아이템 2
-
-
-
+-   아이템 1
+-   아이템 2
+    -   서브 아이템 1
+    -   서브 아이템 2
 
 ## 제목 2 (h2)
 
 순서가 있는 목록을 삽입할 수 있습니다.
 
-1. 파이썬 패키지
-    1. 판다스
-    1. 넘파이
-1. R 언어 패키지
-    1. Dplyr
-    1. ggplot
+1.  파이썬 패키지
+    1.  판다스
+    2.  넘파이
+2.  R 언어 패키지
+    1.  Dplyr
+    2.  ggplot
 
-
-
-
-### 제목 3 (h3) - 이미지와 링크 삽입 
+### 제목 3 (h3) - 이미지와 링크 삽입
 
 문의사항은 [슬기로운 생활](https://lab.statisticsplaybook.com/)로 문의 주세요!
 
-
-이미지 삽입하는 방법 1
-![슬통로고](https://lab.statisticsplaybook.com/wp-content/uploads/2025/02/lab-main2.png)
-
-
+이미지 삽입하는 방법 1 ![슬통로고](https://lab.statisticsplaybook.com/wp-content/uploads/2025/02/lab-main2.png)
 
 이미지 삽입하는 방법 2
+
 ![컴퓨터에 저장된 그림](./test.webp)
 
-
 ### (표) 삽입
-| 이름  | 나이 | 직업    |
-|------|----|-------|
-| 홍길동 | 25 | 데이터 분석가 |
-| 이몽룡 | 30 | 개발자  |
 
-
+| 이름   | 나이 | 직업          |
+|--------|------|---------------|
+| 홍길동 | 25   | 데이터 분석가 |
+| 이몽룡 | 30   | 개발자        |
 
 ### 수식 입력
 
-문장 안에 들어가는 수식은 달러 기호 한개!
-이 식은 인라인 수식입니다: $E = mc^2$
+문장 안에 들어가는 수식은 달러 기호 한개! 이 식은 인라인 수식입니다: $E = mc^2$
 
-
-만약, 수식만 따로 문단을 만들어서 보여주고 싶은 경우
-달러 기호 2개를 사용!
-$$
+만약, 수식만 따로 문단을 만들어서 보여주고 싶은 경우 달러 기호 2개를 사용! $$
 \sum_{i=1}^{n} x_i = \frac{n(n+1)}{2}
 $$
 
-
-* '\\' 역슬러쉬 두개는 줄바꿈을 의미!
-* '&'  정렬기준을 의미
-$$
-\begin{aligned}
-    a &= b + c \\
-    &= d + e + f
-\end{aligned}
-$$
-
+-   `\\` 역슬러쉬 두개는 줄바꿈을 의미!
+-   `&` 정렬기준을 의미 $$
+    \begin{aligned}
+      a &= b + c \\
+      &= d + e + f
+    \end{aligned}
+    $$
 
 $$
 \begin{aligned}
     a = b + c \\ = d + e + f
 \end{aligned}
 $$
+
+### Quarto의 존재 이유
+
+파이썬 코드 청크를 삽입할 수 있다.
+
+단축키 : `Ctrl + Shift + I`
+
+```{python}
+import numpy as np 
+
+a= np.arange(10)
+a
+```
+
+# 비주얼 모드에서 편집하기
+
+우리가 이렇게 *문장을* 바로 쓰면 **서식이 적용** 되어 나옵니다.
+
+Ctrl + Shift + I
+
+**테이블 넣기**
+
+| Col1   | Col2 | Col3 |
+|--------|------|------|
+| 항목 1 |      |      |
+| 항목 2 |      |      |
+| 항목 3 |      |      |
+
+
+
+
+### 막간 tip 
+인덱싱 내용을 직접 넣을 수 있음
+-> 데이터 변동이 있을때 변동사항을 바로바로 반영할 수 있음
+
+```{python}
+import pandas as pd  
+import numpy as np  
+
+from palmerpenguins import load_penguins
+# penguins = pd.read_csv('./data/penguins.csv')
+penguins = load_penguins()
+penguins.head()
+
+na_check = penguins.loc[penguins["bill_length_mm"].isna()] 
+
+
+#| echo: false 
+# 위에 코드는 내가 결과만 보고 싶을때 
+
+
+# 예시)
+# 부리 길이 변수의 결측치 개수는 
+# `{python} print(na_check.iloc[2])` 개이다.
+```
+
+
+
+
+
+
+
 
 
